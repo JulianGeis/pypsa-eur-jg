@@ -400,8 +400,7 @@ if __name__ == "__main__":
             opts="",
             ll="vopt",
             sector_opts="None",
-            lt_st="lt",
-            run="KN2045_Bal_v4_voll",
+            run="FR_365H",
         )
     
     # ensure output directory exist

@@ -24,7 +24,7 @@ copy_default_files(workflow)
 
 configfile: "config/config.default.yaml"
 configfile: "config/plotting.default.yaml"
-configfile: "config/config.yaml"
+configfile: "config/config.pricing.yaml"
 
 
 run = config["run"]
@@ -107,6 +107,10 @@ rule all:
                 run=config["run"]["name"],
                 **config["scenario"],
             ),
+        ),
+        expand(
+            RESULTS + "ariadne/pricing/elec_pdc.png",
+            run=config_provider("run", "name"),
         ),
     default_target: True
 

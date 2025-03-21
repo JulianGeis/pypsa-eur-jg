@@ -21,8 +21,9 @@ foresight: myopic
 run:
   prefix: "20250321-Pricing"
   name: 
-    - FR_365H
-    # - NO_365H
+    - FR_default
+    - NO_default
+    - DE_default
     
   scenarios:
     enable: true
@@ -166,8 +167,30 @@ clustering:
     resolution_sector: 3H
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#sector
+# docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#sector
 sector:
+  v2g: false
   solar_thermal: false
+  central_heat_vent: true
+  co2_spatial: true
+  biomass_spatial: true
+  regional_methanol_demand: true  #set to true if regional CO2 constraints needed
+  regional_oil_demand: true  #set to true if regional CO2 constraints needed
+  regional_coal_demand: true  #set to true if regional CO2 constraints needed
+  gas_network: false
+  regional_gas_demand: true
+  H2_retrofit: false
+  biogas_upgrading_cc: true
+  biomass_to_liquid: true
+  biomass_to_liquid_cc: true
+  cluster_heat_buses: true
+  electricity_distribution_grid: false
+  co2_sequestration_potential: 150
+  min_part_load_fischer_tropsch: 0 #0.5
+  min_part_load_methanolisation: 0 #0.3
+  min_part_load_methanation: 0 #0.3
+  bev_dsm: 2030
+  bev_availability: 0.5
 
 costs:
   horizon: "mean" # "optimist", "pessimist" or "mean"
