@@ -87,7 +87,17 @@ def add_existing_renewables(
     """
     tech_map = {"solar": "PV", "onwind": "Onshore", "offwind-ac": "Offshore"}
 
-    irena = pm.data.IRENASTAT().powerplant.convert_country_to_alpha2()
+    # Define the configuration dictionary
+    config_data = {
+        'IRENA': {
+            'net_capacity': True,
+            'aggregated_units': True,
+            'fn': 'IRENASTAT_capacities_2000-2023.csv',
+            'url': 'https://zenodo.org/records/10952917/files/IRENASTAT_capacities_2000-2023.csv'
+        }
+    }
+
+    irena = pm.data.IRENASTAT(config=config_data).powerplant.convert_country_to_alpha2()
     irena = irena.query("Country in @countries")
     irena = irena.groupby(["Technology", "Country", "Year"]).Capacity.sum()
 

@@ -28,10 +28,13 @@ if __name__ == "__main__":
 
         snakemake = mock_snakemake(
             "plot_balance_map",
-            clusters="10",
+            simpl="",
+            clusters=1,
             opts="",
-            sector_opts="",
-            planning_horizons="2050",
+            ll="vopt",
+            sector_opts="none",
+            planning_horizons="2020",
+            run="FR_365H",
             carrier="H2",
         )
 

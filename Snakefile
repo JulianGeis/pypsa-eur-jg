@@ -201,3 +201,67 @@ rule sync_dry:
         rsync -uvarh --no-g {params.cluster}/results . -n || echo "No results directory, skipping rsync"
         rsync -uvarh --no-g {params.cluster}/logs . -n || echo "No logs directory, skipping rsync"
         """
+
+
+rule pricing_analysis:
+    params:
+        planning_horizons=config_provider("scenario", "planning_horizons"),
+        plotting=config_provider("plotting"),
+        run=config_provider("run", "name"),
+        NEP_year=config_provider("costs", "NEP"),
+        hours=config_provider("clustering", "temporal", "resolution_sector"),
+        costs=config_provider("costs"),
+        pricing=config_provider("pricing"),
+    input:
+        networks=expand(
+            RESULTS
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.nc",
+            **config["scenario"],
+            allow_missing=True,
+        ),
+    output:
+        price_setter_s=RESULTS + "ariadne/pricing/analysis/price_setter_s.pkl",
+        price_setter_d=RESULTS + "ariadne/pricing/analysis/price_setter_d.pkl",
+        pricing=directory(RESULTS + "ariadne/pricing/analysis"),
+    threads: 32
+    resources:
+        mem_mb=30000,
+        runtime="30h",
+    log:
+        RESULTS + "logs/pricing_analysis.log",
+    script:
+        "scripts/pricing_analysis.py"
+
+rule pricing_plots:
+    params:
+        planning_horizons=config_provider("scenario", "planning_horizons"),
+        plotting=config_provider("plotting"),
+        run=config_provider("run", "name"),
+        NEP_year=config_provider("costs", "NEP"),
+        hours=config_provider("clustering", "temporal", "resolution_sector"),
+    input:
+        networks=expand(
+            RESULTS
+            + "networks/base_s_{clusters}_{opts}_{sector_opts}_{planning_horizons}.nc",
+            **config["scenario"],
+            allow_missing=True,
+        ),
+        price_setter_s=RESULTS + "ariadne/pricing/analysis/price_setter_s.pkl",
+        price_setter_d=RESULTS + "ariadne/pricing/analysis/price_setter_d.pkl",
+    output:
+        elec_pdc=RESULTS + "ariadne/pricing/elec_pdc.png",
+        price_setting_dev=RESULTS + "ariadne/pricing/price_setting_development.png",
+        pricing=directory(RESULTS + "ariadne/pricing/plots"),
+        merit_order_3cases=directory(RESULTS + "ariadne/pricing/plots/merit_order_3cases"),
+        merit_order_all=directory(RESULTS + "ariadne/pricing/plots/merit_order"),
+        price_setter=directory(RESULTS + "ariadne/pricing/plots/price_setter"),
+        price_taker=directory(RESULTS + "ariadne/pricing/plots/price_taker"),
+        pdc_price_setter=directory(RESULTS + "ariadne/pricing/plots/pdc_price_setter"),
+        pdc_price_taker=directory(RESULTS + "ariadne/pricing/plots/pdc_price_taker"),
+    resources:
+        mem_mb=30000,
+        runtime="30h",
+    log:
+        RESULTS + "logs/pricing_plots.log",
+    script:
+        "scripts/pricing_plots.py"
