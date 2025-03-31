@@ -19,12 +19,43 @@ foresight: myopic
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#run
 run:
-  prefix: "20250328-Pricing"
+  prefix: "20250331-Pricing"
   name: 
     - FR_default
-    # - DE_default
-    # - NO_default
-    # - FR_365H
+    - DE_default
+    - NO_default
+    - AL_default  
+    - AT_default  
+    - BA_default  
+    - BE_default  
+    - BG_default  
+    - CH_default  
+    - CZ_default  
+    - DK_default  
+    - EE_default  
+    - ES_default  
+    - FI_default  
+    - GB_default  
+    - GR_default  
+    - HR_default  
+    - HU_default  
+    - IE_default  
+    - IT_default  
+    - LT_default  
+    - LU_default  
+    - LV_default  
+    - ME_default  
+    - MK_default  
+    - NL_default  
+    - PL_default  
+    - PT_default  
+    - RO_default  
+    - RS_default  
+    - SE_default  
+    - SI_default  
+    - SK_default  
+    - XK_default  
+
     
   scenarios:
     enable: true

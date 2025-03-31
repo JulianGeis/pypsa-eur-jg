@@ -430,6 +430,8 @@ if __name__ == "__main__":
         results_s = pickle.load(file)
     with open(snakemake.input.price_setter_d, 'rb') as file:
         results_d = pickle.load(file)
+    
+    region = snakemake.params.countries[0]
 
     # convert to datetime
     for year in years:
@@ -488,7 +490,7 @@ if __name__ == "__main__":
         for i in range(num_subplots):
             n = networks[year]
             timestep = str(ts[i])
-            supply, demand = get_supply_demand(n, buses, timestep)
+            supply, demand = get_supply_demand(n, buses, timestep, region=region)
             supply_handles_labels = \
                 plot_supply_demand_s(n, supply, demand, buses, timestep, p="volume_bid", d="volume_demand", mc="mc_final",
                                 only_carriers=True, demand_text=True, compress_demand=True, ax=axes[i], year=year)
@@ -511,7 +513,7 @@ if __name__ == "__main__":
         n = networks[year]
         # plot only every 100th timestep
         for timestep in n.snapshots[::100]:
-            supply, demand = get_supply_demand(n, buses, str(timestep))
+            supply, demand = get_supply_demand(n, buses, str(timestep), region=region)
             plot_supply_demand(n, 
                     supply, 
                     demand, 

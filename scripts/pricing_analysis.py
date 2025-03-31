@@ -118,8 +118,8 @@ def get_supply_demand(n, buses, timestep, co2_add_on=False, region="DE"):
 
         if n.generators.loc[gen].carrier in ["load-shedding", "load"]: # alter values for load shedding
             volume_bid = p
-            mc = p * n.generators.loc[gen].marginal_cost_quadratic + n.generators.loc[gen].marginal_cost
-            mc_final = mc   
+            mc = p * max(n.generators.loc[gen].marginal_cost_quadratic, n.generators_t.marginal_cost_quadratic.loc[timestep, gen]) + n.generators.loc[gen].marginal_cost
+            mc_final = mc    
         
         supply.loc[gen] = [mc, capex_add_on, p_nom_opt, p, volume_bid, mc_final, carrier]
 
@@ -656,7 +656,7 @@ if __name__ == "__main__":
     for i, year in enumerate(years):
         n_dict[year] = networks[i]
 
-    region = snakemake.params.country[0]
+    region = snakemake.params.countries[0]
     
     # calc price setter info
     networks = n_dict
