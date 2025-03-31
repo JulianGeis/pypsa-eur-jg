@@ -100,7 +100,7 @@ def demand_price_link(n, link, timestep, bus, co2_add_on=False, print_steps=Fals
     return demand_price
 
 
-def get_supply_demand(n, buses, timestep, co2_add_on=False):
+def get_supply_demand(n, buses, timestep, co2_add_on=False, region="DE"):
     # Initialize DataFrames with the required columns
     supply = pd.DataFrame(columns=["mc", "capex_add_on", "p_nom_opt", "p", "volume_bid", "mc_final", "carrier"])
     demand = pd.DataFrame(columns=["bidding_price", "p", "p_nom_opt", "volume_demand", "carrier"])
@@ -224,11 +224,11 @@ def get_supply_demand(n, buses, timestep, co2_add_on=False):
                 p_nom_opt = n.links.loc[link].p_nom_opt #* efficiency
                 p_min_pu = n.links_t.p_min_pu.loc[timestep, link] if link in n.links_t.p_min_pu.columns else n.links.loc[link].p_min_pu
                 if n.links.loc[link].carrier == "BEV charger":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, "DE0 0 land transport EV"]) 
+                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 land transport EV"]) 
                 if n.links.loc[link].carrier == "urban decentral resistive heater":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, "DE0 0 urban decentral heat"]/efficiency) 
+                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 urban decentral heat"]/efficiency) 
                 if n.links.loc[link].carrier == "rural resistive heater":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, "DE0 0 rural heat"]/efficiency)
+                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 rural heat"]/efficiency)
                 else:
                     volume_demand = abs(p_nom_opt)
                 carrier = n.links.loc[link].carrier
@@ -285,11 +285,11 @@ def get_compressed_demand(demand, th):
     return grouped_df
 
 
-def price_setter(n, bus, timestep, minimum_generation=1e-3, co2_add_on=False, suppress_warnings=False):
+def price_setter(n, bus, timestep, minimum_generation=1e-3, co2_add_on=False, suppress_warnings=False, region="DE"):
     mp = n.buses_t.marginal_price.loc[timestep, bus]
     if not isinstance(bus, list):
         bus = [bus]
-    supply, demand = get_supply_demand(n, bus, timestep, co2_add_on)
+    supply, demand = get_supply_demand(n, bus, timestep, co2_add_on, region=region)
 
     # Filter where supply (p) is greater than 0.1 (using 1 omits the marginal generator at some times)
     th_p = minimum_generation
@@ -400,8 +400,8 @@ def price_setter(n, bus, timestep, minimum_generation=1e-3, co2_add_on=False, su
 
 def process_bus_snapshot(args):
     """Process a single bus-snapshot combination for a specific network"""
-    n, bus, snapshot, suppress_warnings = args
-    s, d = price_setter(n, bus, str(snapshot), suppress_warnings=suppress_warnings)
+    n, bus, snapshot, suppress_warnings, region = args
+    s, d = price_setter(n, bus, str(snapshot), suppress_warnings=suppress_warnings, region=region)
     return (bus, snapshot, s, d)
 
 def get_all_supply_prices(n, bus, period=None, carriers=None):
@@ -632,7 +632,7 @@ if __name__ == "__main__":
             opts="",
             ll="vopt",
             sector_opts="None",
-            run="FR_365H",
+            run="FR_default",
         )
     
     # ensure output directory exist
@@ -655,6 +655,8 @@ if __name__ == "__main__":
     years = np.arange(2020,2050,5)
     for i, year in enumerate(years):
         n_dict[year] = networks[i]
+
+    region = snakemake.params.country[0]
     
     # calc price setter info
     networks = n_dict
@@ -678,7 +680,7 @@ if __name__ == "__main__":
         # For each bus in the year
         for bus in n.buses.query("carrier == 'AC'").index:
             # Prepare arguments for each snapshot
-            snapshot_args = [(n, bus, snapshot, False) for snapshot in n.snapshots]
+            snapshot_args = [(n, bus, snapshot, False, region) for snapshot in n.snapshots]
             
             # Process all snapshots for this bus in parallel
             with mp.Pool(processes=nprocesses) as pool:

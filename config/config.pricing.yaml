@@ -19,11 +19,12 @@ foresight: myopic
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#run
 run:
-  prefix: "20250321-Pricing"
+  prefix: "20250328-Pricing"
   name: 
     - FR_default
-    - NO_default
-    - DE_default
+    # - DE_default
+    # - NO_default
+    # - FR_365H
     
   scenarios:
     enable: true

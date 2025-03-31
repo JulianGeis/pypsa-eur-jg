@@ -216,6 +216,7 @@ rule pricing_analysis:
         hours=config_provider("clustering", "temporal", "resolution_sector"),
         costs=config_provider("costs"),
         pricing=config_provider("pricing"),
+        country=config_provider("countries"),
     input:
         networks=expand(
             RESULTS

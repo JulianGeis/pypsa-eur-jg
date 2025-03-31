@@ -966,6 +966,7 @@ def add_lossy_bidirectional_link_constraints(n):
     if not n.links.p_nom_extendable.any() or not any(n.links.get("reversed", [])):
         return
 
+    n.links["reversed"] = n.links.reversed.fillna(0).astype(bool)
     carriers = n.links.loc[n.links.reversed, "carrier"].unique()  # noqa: F841
     backwards = n.links.query(
         "carrier in @carriers and p_nom_extendable and reversed"
