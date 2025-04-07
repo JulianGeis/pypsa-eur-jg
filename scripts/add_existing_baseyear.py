@@ -224,11 +224,12 @@ def add_power_capacities_installed_before_baseyear(
     # Intermediate fix for DateIn & DateOut
     # Fill missing DateIn
     biomass_i = df_agg.loc[df_agg.Fueltype == "urban central solid biomass CHP"].index
-    mean = df_agg.loc[biomass_i, "DateIn"].mean()
-    df_agg.loc[biomass_i, "DateIn"] = df_agg.loc[biomass_i, "DateIn"].fillna(int(mean))
-    # Fill missing DateOut
-    dateout = df_agg.loc[biomass_i, "DateIn"] + lifetime_values["lifetime"]
-    df_agg.loc[biomass_i, "DateOut"] = df_agg.loc[biomass_i, "DateOut"].fillna(dateout)
+    if not biomass_i.empty:
+        mean = df_agg.loc[biomass_i, "DateIn"].mean()
+        df_agg.loc[biomass_i, "DateIn"] = df_agg.loc[biomass_i, "DateIn"].fillna(int(mean))
+        # Fill missing DateOut
+        dateout = df_agg.loc[biomass_i, "DateIn"] + lifetime_values["lifetime"]
+        df_agg.loc[biomass_i, "DateOut"] = df_agg.loc[biomass_i, "DateOut"].fillna(dateout)
 
     # include renewables in df_agg
     add_existing_renewables(
@@ -715,12 +716,13 @@ if __name__ == "__main__":
 
         snakemake = mock_snakemake(
             "add_existing_baseyear",
-            configfiles="config/test/config.myopic.yaml",
-            clusters="5",
-            ll="v1.5",
+            simpl="",
+            clusters=1,
             opts="",
-            sector_opts="",
-            planning_horizons=2030,
+            ll="vopt",
+            planning_horizons="2020",
+            sector_opts="none",
+            run="NO_default",
         )
 
     configure_logging(snakemake)  # pylint: disable=E0606

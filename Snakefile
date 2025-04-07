@@ -108,10 +108,10 @@ rule all:
                 **config["scenario"],
             ),
         ),
-        expand(
-            RESULTS + "ariadne/pricing/elec_pdc.png",
-            run=config_provider("run", "name"),
-        ),
+        # expand(
+        #     RESULTS + "ariadne/pricing/elec_pdc.png",
+        #     run=config_provider("run", "name"),
+        # ),
     default_target: True
 
 
@@ -216,7 +216,7 @@ rule pricing_analysis:
         hours=config_provider("clustering", "temporal", "resolution_sector"),
         costs=config_provider("costs"),
         pricing=config_provider("pricing"),
-        country=config_provider("countries"),
+        countries=config_provider("countries"),
     input:
         networks=expand(
             RESULTS
@@ -244,6 +244,7 @@ rule pricing_plots:
         run=config_provider("run", "name"),
         NEP_year=config_provider("costs", "NEP"),
         hours=config_provider("clustering", "temporal", "resolution_sector"),
+        countries=config_provider("countries"),
     input:
         networks=expand(
             RESULTS

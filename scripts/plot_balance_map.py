@@ -33,9 +33,9 @@ if __name__ == "__main__":
             opts="",
             ll="vopt",
             sector_opts="none",
-            planning_horizons="2020",
-            run="FR_365H",
-            carrier="H2",
+            planning_horizons="2035",
+            run="NL_default",
+            carrier="AC",
         )
 
     configure_logging(snakemake)

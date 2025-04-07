@@ -19,42 +19,21 @@ foresight: myopic
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#run
 run:
-  prefix: "20250331-Pricing"
+  prefix: "20250402-Pricing-ES"
   name: 
-    - FR_default
-    - DE_default
-    - NO_default
-    - AL_default  
-    - AT_default  
-    - BA_default  
-    - BE_default  
-    - BG_default  
-    - CH_default  
-    - CZ_default  
-    - DK_default  
-    - EE_default  
-    - ES_default  
-    - FI_default  
-    - GB_default  
-    - GR_default  
-    - HR_default  
-    - HU_default  
-    - IE_default  
-    - IT_default  
-    - LT_default  
-    - LU_default  
-    - LV_default  
-    - ME_default  
-    - MK_default  
-    - NL_default  
-    - PL_default  
-    - PT_default  
-    - RO_default  
-    - RS_default  
-    - SE_default  
-    - SI_default  
-    - SK_default  
-    - XK_default  
+    # - FR_default
+    # - DE_default
+    # - NO_default
+    # - AT_default  
+    # - DK_default  
+    - ES_default  # NUTS0
+    # - FI_default  
+    # - GB_default  
+    # - GR_default  
+    # - IE_default  
+    # - IT_default  # NUTS0
+    # - NL_default  
+    # - PL_default  
 
     
   scenarios:
@@ -73,7 +52,7 @@ scenario:
   ll:
   - vopt
   clusters:
-  - 1
+  - adm # adm if you use nuts otherwise 1
   opts:
   - ''
   sector_opts:
@@ -86,9 +65,6 @@ scenario:
   - 2040
   - 2045
   # - 2050
-  # lt_st:
-  # - lt
-  # - st
 
 
 existing_capacities:
@@ -244,6 +220,10 @@ solving:
   options:
     assign_all_duals: true
     load_shedding: false
+
+  solver:
+    name: gurobi
+    options: gurobi-default
 
 pricing:
   calc_bid_ask: false

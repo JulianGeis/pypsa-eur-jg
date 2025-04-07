@@ -39,44 +39,9 @@ NO_default:
 
 #######
 
-AL_default:
-  countries: ['AL']
-  clustering:
-    temporal:
-      resolution_sector: 3H
 
 AT_default:
   countries: ['AT']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-BA_default:
-  countries: ['BA']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-BE_default:
-  countries: ['BE']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-BG_default:
-  countries: ['BG']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-CH_default:
-  countries: ['CH']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-CZ_default:
-  countries: ['CZ']
   clustering:
     temporal:
       resolution_sector: 3H
@@ -88,17 +53,19 @@ DK_default:
     temporal:
       resolution_sector: 3H
 
-EE_default:
-  countries: ['EE']
-  clustering:
-    temporal:
-      resolution_sector: 3H
 
-ES_default:
+ES_default:  
   countries: ['ES']
   clustering:
+    mode: administrative
+    administrative:
+      level: 0
     temporal:
       resolution_sector: 3H
+  sector:
+    district_heating:
+      progress:
+        2020: 0.05 # with value of 0 the workflow crashes
 
 FI_default:
   countries: ['FI']
@@ -118,17 +85,6 @@ GR_default:
     temporal:
       resolution_sector: 3H
 
-HR_default:
-  countries: ['HR']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-HU_default:
-  countries: ['HU']
-  clustering:
-    temporal:
-      resolution_sector: 3H
 
 IE_default:
   countries: ['IE']
@@ -142,41 +98,14 @@ IT_default:
     temporal:
       resolution_sector: 3H
 
-LT_default:
-  countries: ['LT']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-LU_default:
-  countries: ['LU']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-LV_default:
-  countries: ['LV']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-ME_default:
-  countries: ['ME']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-MK_default:
-  countries: ['MK']
-  clustering:
-    temporal:
-      resolution_sector: 3H
 
 NL_default:
   countries: ['NL']
   clustering:
     temporal:
       resolution_sector: 3H
+  solver:
+    options: gurobi-fallback 
 
 
 PL_default:
@@ -185,23 +114,6 @@ PL_default:
     temporal:
       resolution_sector: 3H
 
-PT_default:
-  countries: ['PT']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-RO_default:
-  countries: ['RO']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-RS_default:
-  countries: ['RS']
-  clustering:
-    temporal:
-      resolution_sector: 3H
 
 SE_default:
   countries: ['SE']
@@ -209,20 +121,3 @@ SE_default:
     temporal:
       resolution_sector: 3H
 
-SI_default:
-  countries: ['SI']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-SK_default:
-  countries: ['SK']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-XK_default:
-  countries: ['XK']
-  clustering:
-    temporal:
-      resolution_sector: 3H
