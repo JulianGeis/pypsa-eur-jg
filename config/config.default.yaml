@@ -1004,6 +1004,14 @@ solving:
       OptimalityTol: 1.e-5
       Seed: 123
       threads: 8
+    gurobi-jg:
+      # NumericFocus: 1
+      # method: 2
+      # crossover: 0
+      # BarHomogeneous: 1
+      BarConvTol: 1.e-7
+      threads: 8
+      Seed: 654
     cplex-default:
       threads: 4
       lpmethod: 4 # barrier

@@ -19,16 +19,16 @@ foresight: myopic
 
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html#run
 run:
-  prefix: "20250402-Pricing-ES"
+  prefix: "20250408-Pricing"
   name: 
     # - FR_default
     # - DE_default
     # - NO_default
     # - AT_default  
     # - DK_default  
-    - ES_default  # NUTS0
+    # - ES_default  # NUTS0
     # - FI_default  
-    # - GB_default  
+    - GB_default  
     # - GR_default  
     # - IE_default  
     # - IT_default  # NUTS0
@@ -197,7 +197,7 @@ sector:
   min_part_load_fischer_tropsch: 0 #0.5
   min_part_load_methanolisation: 0 #0.3
   min_part_load_methanation: 0 #0.3
-  bev_dsm: 2030
+  bev_dsm: true
   bev_availability: 0.5
 
 costs:
@@ -223,7 +223,7 @@ solving:
 
   solver:
     name: gurobi
-    options: gurobi-default
+    options: gurobi-jg
 
 pricing:
   calc_bid_ask: false

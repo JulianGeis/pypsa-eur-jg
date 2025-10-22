@@ -223,14 +223,14 @@ def get_supply_demand(n, buses, timestep, co2_add_on=False, region="DE"):
                 p = n.links_t[f"p{i}"].loc[timestep, link]
                 p_nom_opt = n.links.loc[link].p_nom_opt #* efficiency
                 p_min_pu = n.links_t.p_min_pu.loc[timestep, link] if link in n.links_t.p_min_pu.columns else n.links.loc[link].p_min_pu
-                if n.links.loc[link].carrier == "BEV charger":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 land transport EV"]) 
-                if n.links.loc[link].carrier == "urban decentral resistive heater":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 urban decentral heat"]/efficiency) 
-                if n.links.loc[link].carrier == "rural resistive heater":
-                    volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 rural heat"]/efficiency)
-                else:
-                    volume_demand = abs(p_nom_opt)
+                # if n.links.loc[link].carrier == "BEV charger":
+                #     volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 land transport EV"]) 
+                # if n.links.loc[link].carrier == "urban decentral resistive heater":
+                #     volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 urban decentral heat"]/efficiency) 
+                # if n.links.loc[link].carrier == "rural resistive heater":
+                #     volume_demand = min(abs(p_nom_opt),n.loads_t.p.loc[timestep, f"{region}0 0 rural heat"]/efficiency)
+                # else:
+                volume_demand = abs(p_nom_opt)
                 carrier = n.links.loc[link].carrier
                 demand.loc[link] = [bidding_price, p, p_nom_opt, volume_demand, carrier]
                 

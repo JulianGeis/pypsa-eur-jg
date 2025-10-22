@@ -108,10 +108,10 @@ rule all:
                 **config["scenario"],
             ),
         ),
-        # expand(
-        #     RESULTS + "ariadne/pricing/elec_pdc.png",
-        #     run=config_provider("run", "name"),
-        # ),
+        expand(
+            RESULTS + "ariadne/pricing/elec_pdc.png",
+            run=config_provider("run", "name"),
+        ),
     default_target: True
 
 

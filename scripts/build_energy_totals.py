@@ -1575,7 +1575,15 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("build_energy_totals")
+        snakemake = mock_snakemake(
+            "build_energy_totals",
+            simpl="",
+            clusters=1,
+            opts="",
+            ll="vopt",
+            sector_opts="None",
+            run="GB_default",
+        )
 
     configure_logging(snakemake)
     set_scenario_config(snakemake)
@@ -1587,6 +1595,9 @@ if __name__ == "__main__":
 
     countries = snakemake.params.countries
     idees_countries = pd.Index(countries).intersection(eu27)
+    if idees_countries.empty:
+        countries = ['AL', 'AT', 'BA', 'BE', 'BG', 'CH', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'ME', 'MK', 'NL', 'NO', 'PL', 'PT', 'RO', 'RS', 'SE', 'SI', 'SK', 'XK']
+        idees_countries = pd.Index(countries).intersection(eu27)
 
     input_eurostat = snakemake.input.eurostat
     eurostat = build_eurostat(

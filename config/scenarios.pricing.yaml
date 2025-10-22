@@ -39,21 +39,6 @@ NO_default:
 
 #######
 
-
-AT_default:
-  countries: ['AT']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-
-DK_default:
-  countries: ['DK']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
-
 ES_default:  
   countries: ['ES']
   clustering:
@@ -66,9 +51,17 @@ ES_default:
     district_heating:
       progress:
         2020: 0.05 # with value of 0 the workflow crashes
+        sector:
+    co2_sequestration_potential: 50
 
-FI_default:
-  countries: ['FI']
+AT_default:
+  countries: ['AT']
+  clustering:
+    temporal:
+      resolution_sector: 3H
+
+DK_default:
+  countries: ['DK']
   clustering:
     temporal:
       resolution_sector: 3H
@@ -76,15 +69,13 @@ FI_default:
 GB_default:
   countries: ['GB']
   clustering:
+    mode: administrative
+    administrative:
+      level: 0
     temporal:
-      resolution_sector: 3H
-
-GR_default:
-  countries: ['GR']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-
+      resolution_sector: 365H
+  sector:
+    co2_sequestration_potential: 80
 
 IE_default:
   countries: ['IE']
@@ -97,15 +88,6 @@ IT_default:
   clustering:
     temporal:
       resolution_sector: 3H
-
-
-NL_default:
-  countries: ['NL']
-  clustering:
-    temporal:
-      resolution_sector: 3H
-  solver:
-    options: gurobi-fallback 
 
 
 PL_default:

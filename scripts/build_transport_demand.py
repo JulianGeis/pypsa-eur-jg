@@ -166,7 +166,15 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("build_transport_demand", clusters=128)
+        snakemake = mock_snakemake(
+            "build_transport_demand", 
+            simpl="",
+            clusters="1",
+            opts="",
+            ll="vopt",
+            sector_opts="None",
+            run="DE_default"
+        )
     configure_logging(snakemake)
     set_scenario_config(snakemake)
 
@@ -208,3 +216,4 @@ if __name__ == "__main__":
     transport_demand.to_csv(snakemake.output.transport_demand)
     avail_profile.to_csv(snakemake.output.avail_profile)
     dsm_profile.to_csv(snakemake.output.dsm_profile)
+

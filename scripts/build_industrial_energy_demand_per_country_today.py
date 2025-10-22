@@ -278,13 +278,24 @@ if __name__ == "__main__":
     if "snakemake" not in globals():
         from _helpers import mock_snakemake
 
-        snakemake = mock_snakemake("build_industrial_energy_demand_per_country_today")
+        snakemake = mock_snakemake(
+            "build_industrial_energy_demand_per_country_today",
+            simpl="",
+            clusters=1,
+            opts="",
+            ll="vopt",
+            sector_opts="None",
+            run="NO_default",
+        )
+
     configure_logging(snakemake)
     set_scenario_config(snakemake)
 
     params = snakemake.params.industry
     year = params.get("reference_year", 2019)
     countries = pd.Index(snakemake.params.countries)
+    # select all countries: not working for specific combinations
+    countries = pd.Index(['AL', 'AT', 'BA', 'BE', 'BG', 'CH', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'ME', 'MK', 'NL', 'NO', 'PL', 'PT', 'RO', 'RS', 'SE', 'SI', 'SK', 'XK'])
 
     demand = industrial_energy_demand(countries.intersection(eu27), year)
 
@@ -293,6 +304,9 @@ if __name__ == "__main__":
         pd.read_csv(snakemake.input.industrial_production_per_country, index_col=0)
         / 1e3
     )
+
+    # revert country addition
+    countries = pd.Index(snakemake.params.countries)
 
     demand = separate_basic_chemicals(demand, production)
 
